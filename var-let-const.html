@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>var-let-const</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="list-group">
+        <li class="list-group-item"><kbd>var</kbd> 属于<strong>函数作用域</strong>，在声明于<strong>函数中</strong>时，只有函数<strong>内部</strong>可以访问；在声明于<strong>函数外</strong>时，<strong>全局</strong>皆可访问。</li>
+        <li class="list-group-item"><kbd>let</kbd> 和 <kbd>const</kbd> 都属于<strong>块级作用域</strong>，在声明于<strong>大括号</strong>声明块中时，只有大括号内可以访问；在声明于函数外时，全局皆可访问。</li>
+        <li class="list-group-item"><kbd>var</kbd> <strong>在同一作用域可重复声明</strong>变量，存在<strong>覆盖</strong>别人声明的变量值的风险，<kbd>let</kbd> 和 <kbd>const</kbd> 在<strong>同一作用域</strong>都<strong>不可重复声明</strong>，会发生报错。</li>
+        <li class="list-group-item"><kbd>var</kbd> 在函数内和函数外声明的<strong>同名</strong>变量是<strong>不同</strong>变量，<kbd>let</kbd> 和 <kbd>const</kbd> 在大括号内和大括号外声明的同名变量<strong>也</strong>是不同变量。</li>
+        <li class="list-group-item"><kbd>let</kbd> <strong>可更改</strong>已声明变量的值，<kbd>const</kbd> <strong>不可以</strong>，但是 <kbd>const</kbd> 声明的对象<strong>可以更改其属性值</strong>，而不能直接更改对象的<strong>指针的指向</strong>。</li>
+        <li class="list-group-item"><kbd>const Angelique = Object.freeze(person);</kbd> 可限制对象的某一<strong>属性也不可更改</strong>。</li>
+    </ul>
+</div>
+<script>
+    var price = 50;
+    var price = 100;
+    // 由于var可重复声明变量，price会被后面的声明覆盖
+    // 这可能会导致很严重的问题就是有可能会覆盖别人声明过的变量值
+    let grade = 200;
+    const score = 200;
+    // let grade = 300; 会报错
+    // let price = 200; 会报错
+    // 所以在外部一般用let或const，他们两个不可以重复声明变量，会有报错提醒
+    grade = 300;
+    // let 声明后可以更改指针的指向
+    // 而 score = 300; 会报错，因为const声明后不可以直接指针的指向
+    const person = {
+        name : 'Angelique',
+        age : '20'
+    };
+    // person = { name : 'he' , age : 21}; 会报错，因为const规定不可以直接更改对象指针的指向
+    person.age = 21;
+    // 可以成功执行，因为可以更改对象的属性
+    const Angelique = Object.freeze(person);
+    // 用于规定对象的某个属性的值也不能更改
+    // 此时执行 person.name = 'he' 会报错
+    const count = 10;
+    if (count > 5) {
+        var discount = price * 0.6;
+        console.log(`The discount is ${discount}`);
+        // 注意符号是 ` ，不是‘
+    }
+    // 然后在浏览器console直接打印discount可以成功
+    // 由于discount是由var声明，他属于函数作用域，没有包装在函数中，是会暴露在if语句之外的，是个全局变量
+    // 若discount由let或const声明，在浏览器console直接打印discount会报错
+    // 因为let和const属于块级作用域，只作用于声明所在的大括号内，外部无法访问
+    function getSalary() {
+        var salary = 200;
+        console.log(salary);
+    }
+    getSalary();
+    // var属于函数作用域，通过函数内部访问成功
+    // console.log(salary); 外部访问失败
+</script>
+</body>
+</html>
